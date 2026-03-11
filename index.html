@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Dynamic Interactive Story Engine — build and play branching narratives in the browser.">
+  <title>Story Engine</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@400;500;600;700&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="theme-medieval">
+
+  <!-- ═══════════════  TOP NAV BAR  ═══════════════ -->
+  <nav id="navbar">
+    <div class="nav-brand" id="navTitle">⚔ Story Engine</div>
+    <div class="nav-tabs">
+      <button class="nav-tab active" id="btnPlayerMode" data-mode="player">▶ Player</button>
+      <button class="nav-tab" id="btnEditorMode" data-mode="editor">✎ Editor</button>
+    </div>
+  </nav>
+
+  <!-- ═══════════════  PLAYER MODE  ═══════════════ -->
+  <main id="playerMode" class="mode-container">
+    <!-- Background layer -->
+    <div id="sceneBg" class="scene-bg"></div>
+
+    <!-- Overlay content -->
+    <div class="player-content">
+      <!-- HUD — shows live variables -->
+      <aside id="playerHUD" class="hud-bar"></aside>
+
+      <!-- Scene card -->
+      <section id="sceneCard" class="scene-card">
+        <p id="sceneText" class="scene-text">Loading story…</p>
+      </section>
+
+      <!-- Choices -->
+      <section id="choicesPanel" class="choices-panel"></section>
+
+      <!-- Player Footer -->
+      <div class="player-footer">
+        <button id="btnSaveProgress" class="btn-restart" title="Save progress">💾 Save</button>
+        <button id="btnLoadProgress" class="btn-restart" title="Load saved progress">📂 Load</button>
+        <button id="btnRestart" class="btn-restart" title="Restart story">↺ Restart</button>
+        <button id="btnHistory" class="btn-restart" title="Playthrough history">📊 History</button>
+        <button id="btnCinematic" class="btn-restart" title="Toggle cinematic mode">👁️ Cinematic</button>
+      </div>
+    </div>
+  </main>
+
+  <!-- ═══════════════  EDITOR MODE  ═══════════════ -->
+  <main id="editorMode" class="mode-container hidden">
+    <div class="editor-layout">
+
+      <!-- LEFT: Scene list sidebar -->
+      <aside class="editor-sidebar">
+        <h3 class="sidebar-title">Scenes</h3>
+        <ul id="sceneList" class="scene-list"></ul>
+        <div class="sidebar-actions">
+          <button id="btnNewScene" class="btn-accent">＋ New Scene</button>
+        </div>
+      </aside>
+
+      <!-- RIGHT: Forms -->
+      <div class="editor-main">
+
+        <!-- Story Meta -->
+        <fieldset class="editor-card" id="metaCard">
+          <legend>Story Metadata</legend>
+          <div class="form-row">
+            <label for="edTitle">Title</label>
+            <input type="text" id="edTitle" placeholder="My Epic Tale">
+          </div>
+          <div class="form-row">
+            <label for="edTheme">Theme</label>
+            <select id="edTheme">
+              <option value="medieval">⚔ Medieval</option>
+              <option value="scifi">🚀 Sci-Fi</option>
+              <option value="modern">🏙 Modern</option>
+            </select>
+          </div>
+        </fieldset>
+
+        <!-- Player Variables -->
+        <fieldset class="editor-card" id="varsCard">
+          <legend>Initial Variables</legend>
+          <div id="varsContainer"></div>
+          <button id="btnAddVar" class="btn-small">＋ Add Variable</button>
+        </fieldset>
+
+        <!-- Scene Editor -->
+        <fieldset class="editor-card" id="sceneEditorCard">
+          <legend>Scene Editor</legend>
+          <div class="form-row">
+            <label for="edSceneId">Scene Name (Code)</label>
+            <input type="text" id="edSceneId" placeholder="tavern_entrance">
+          </div>
+          <div class="form-row">
+            <label for="edSceneText">Story Text</label>
+            <textarea id="edSceneText" rows="4" placeholder="Describe what the player sees…"></textarea>
+          </div>
+          <div class="form-row-group">
+            <div class="form-row">
+              <label for="edBg">Background</label>
+              <select id="edBg">
+                <option value="tavern">🍺 Tavern</option>
+                <option value="castle">🏰 Castle</option>
+                <option value="neon_grid">💠 Neon Grid</option>
+                <option value="forest">🌲 Forest</option>
+                <option value="dungeon">💀 Dungeon</option>
+                <option value="throne">👑 Throne Room</option>
+                <option value="starship_bridge">🚀 Starship Bridge</option>
+                <option value="neon_city_street">🌃 Neon City Street</option>
+                <option value="cryo_chamber_lab">🧊 Cryo-Chamber Lab</option>
+                <option value="under_city_slums">🏚 Under-City Slums</option>
+                <option value="city_apartment">🏢 City Apartment</option>
+                <option value="police_station">🚔 Police Station Precinct</option>
+                <option value="corporate_office">💼 Corporate Office Boardroom</option>
+                <option value="downtown_intersection">🚦 Downtown Intersection</option>
+              </select>
+            </div>
+            <div class="form-row">
+              <label for="edVisual">Visual Effect</label>
+              <select id="edVisual">
+                <option value="none">None</option>
+                <option value="shake">📳 Shake</option>
+                <option value="flash">⚡ Flash (Accent)</option>
+                <option value="flash_red">🔴 Flash Red</option>
+                <option value="flash_white">⬜ Flash White</option>
+                <option value="glitch">👾 Glitch</option>
+                <option value="pulse_glow">✨ Pulse Glow</option>
+                <option value="rumble">💥 Rumble</option>
+                <option value="vignette">🌑 Vignette</option>
+                <option value="blur">🌀 Blur In</option>
+                <option value="zoom_in">🔍 Zoom In</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Choices (max 3) -->
+          <div class="choices-editor">
+            <h4>Choices <span class="hint">(max 3)</span></h4>
+            <div id="choicesEdContainer"></div>
+            <button id="btnAddChoice" class="btn-small">＋ Add Choice</button>
+          </div>
+
+          <div class="scene-editor-actions">
+            <button id="btnSaveScene" class="btn-accent">💾 Save Scene</button>
+            <button id="btnDeleteScene" class="btn-danger">🗑 Delete Scene</button>
+          </div>
+        </fieldset>
+
+
+
+        <!-- Global Actions -->
+        <div class="editor-global-actions">
+          <button id="btnValidate" class="btn-secondary">✓ Validate</button>
+          <button id="btnSaveStory" class="btn-primary">💾 Save to Browser</button>
+          <button id="btnExportJSON" class="btn-secondary">📥 Export JSON</button>
+          <button id="btnImportJSON" class="btn-secondary">📤 Import JSON</button>
+          <button id="btnPlayStory" class="btn-accent">▶ Play Story</button>
+          <button id="btnResetStory" class="btn-danger">⚠️ Reset to Default</button>
+          <input type="file" id="fileImport" accept=".json" class="hidden">
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ═══════════════  VALIDATION OVERLAY  ═══════════════ -->
+  <div id="validationOverlay" class="modal-overlay hidden">
+    <div class="modal-panel">
+      <div class="modal-header">
+        <h3>Story Validation</h3>
+        <button id="closeValidation" class="btn-modal-close">✕</button>
+      </div>
+      <div id="validationBody" class="modal-body"></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════  HISTORY OVERLAY  ═══════════════ -->
+  <div id="historyOverlay" class="modal-overlay hidden">
+    <div class="modal-panel modal-wide">
+      <div class="modal-header">
+        <h3>📊 Playthrough History</h3>
+        <button id="closeHistory" class="btn-modal-close">✕</button>
+      </div>
+      <div id="historyBody" class="modal-body"></div>
+    </div>
+  </div>
+
+  <script src="engine.js"></script>
+  <script src="editor.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,160 @@
+{
+  "story_title": "The Crown of Ashenvale",
+  "global_theme": "medieval",
+  "player_state": {
+    "gold": 15,
+    "has_sword": false,
+    "reputation": 0,
+    "has_key": false
+  },
+  "scenes": [
+    {
+      "id": "tavern_entrance",
+      "text": "You push open the heavy oak door of the Gilded Flagon tavern. Smoke curls lazily from a crackling hearth, and the low hum of conversation fills the room. A grizzled blacksmith sits in the corner polishing a fine blade, and a hooded stranger beckons you from a shadowy booth. Your coin pouch jingles — you have some gold to spend.",
+      "background_image": "tavern",
+      "visual_effect": "none",
+      "sound_effect": "none",
+      "choices": [
+        {
+          "text": "Approach the blacksmith about the sword (10 gold)",
+          "target_scene_id": "buy_sword",
+          "condition": "gold >= 10",
+          "modifier": "gold -= 10; has_sword = true"
+        },
+        {
+          "text": "Slide into the booth with the hooded stranger",
+          "target_scene_id": "stranger_meeting",
+          "condition": "",
+          "modifier": ""
+        },
+        {
+          "text": "Leave the tavern and head for the castle gates",
+          "target_scene_id": "castle_gate",
+          "condition": "",
+          "modifier": ""
+        }
+      ]
+    },
+    {
+      "id": "buy_sword",
+      "text": "The blacksmith nods approvingly as you count out ten gold coins. He slides a gleaming short sword across the table. \"She'll serve you well,\" he grunts. The weight of steel at your hip fills you with confidence. The hooded stranger in the corner watches you with renewed interest.",
+      "background_image": "tavern",
+      "visual_effect": "flash",
+      "sound_effect": "clash",
+      "choices": [
+        {
+          "text": "Now speak with the hooded stranger",
+          "target_scene_id": "stranger_meeting",
+          "condition": "",
+          "modifier": "reputation += 1"
+        },
+        {
+          "text": "Head directly to the castle",
+          "target_scene_id": "castle_gate",
+          "condition": "",
+          "modifier": ""
+        }
+      ]
+    },
+    {
+      "id": "stranger_meeting",
+      "text": "The stranger lowers her hood, revealing sharp elven features and violet eyes. \"I know why you've come,\" she whispers. \"The Crown of Ashenvale lies within the castle vault, but its guardian is no mortal. You'll need more than courage.\" She places a tarnished brass key on the table. \"Take it. The side passage will bypass the main guard. But choose wisely what you carry — and whom you trust.\"",
+      "background_image": "tavern",
+      "visual_effect": "none",
+      "sound_effect": "digital",
+      "choices": [
+        {
+          "text": "Accept the key and thank her",
+          "target_scene_id": "castle_gate",
+          "condition": "",
+          "modifier": "has_key = true; reputation += 1"
+        },
+        {
+          "text": "Refuse the key — it could be a trap",
+          "target_scene_id": "castle_gate",
+          "condition": "",
+          "modifier": "reputation -= 1"
+        }
+      ]
+    },
+    {
+      "id": "castle_gate",
+      "text": "The ancient castle looms above you, its walls scarred by centuries of siege. Two armoured guards flank the main gate, halberds crossed. A narrow, ivy-covered passage runs along the eastern wall — barely visible unless you knew to look for it.",
+      "background_image": "castle",
+      "visual_effect": "none",
+      "sound_effect": "none",
+      "choices": [
+        {
+          "text": "Use the brass key on the side passage",
+          "target_scene_id": "vault_approach",
+          "condition": "has_key == true",
+          "modifier": ""
+        },
+        {
+          "text": "Bluff your way past the guards",
+          "target_scene_id": "guard_encounter",
+          "condition": "reputation >= 1",
+          "modifier": ""
+        },
+        {
+          "text": "Fight through the front gate",
+          "target_scene_id": "guard_encounter",
+          "condition": "has_sword == true",
+          "modifier": "reputation -= 1"
+        }
+      ]
+    },
+    {
+      "id": "guard_encounter",
+      "text": "The confrontation at the gate is tense. Steel clashes against steel, voices shout commands. Whether through blade or bluster you manage to break through, but the commotion has echoed through the keep. You stumble through corridors until you find the heavy iron door of the vault. It is battered but holds firm.",
+      "background_image": "castle",
+      "visual_effect": "shake",
+      "sound_effect": "clash",
+      "choices": [
+        {
+          "text": "Force the vault door open with your sword",
+          "target_scene_id": "ending_glory",
+          "condition": "has_sword == true",
+          "modifier": ""
+        },
+        {
+          "text": "Search for another way in",
+          "target_scene_id": "ending_cunning",
+          "condition": "",
+          "modifier": ""
+        }
+      ]
+    },
+    {
+      "id": "vault_approach",
+      "text": "The brass key turns with a satisfying click. The side passage opens into a moonlit corridor lined with faded tapestries. You move silently through the darkness, arriving at the vault from a hidden entrance behind a bookshelf. No guards, no alarms. The Crown of Ashenvale sits on a velvet pedestal, glowing faintly.",
+      "background_image": "neon_grid",
+      "visual_effect": "flash",
+      "sound_effect": "digital",
+      "choices": [
+        {
+          "text": "Take the Crown",
+          "target_scene_id": "ending_cunning",
+          "condition": "",
+          "modifier": "reputation += 2"
+        }
+      ]
+    },
+    {
+      "id": "ending_glory",
+      "text": "With a mighty heave, your blade shatters the vault lock. The Crown of Ashenvale blazes with golden light as you lift it from its pedestal. Guards pour in, but fall to their knees at the sight. The ancient prophecy is fulfilled — the one who claims the crown by steel shall rule. You are the new sovereign of Ashenvale, crowned in battle and blood. **THE END — Path of Glory**",
+      "background_image": "castle",
+      "visual_effect": "flash",
+      "sound_effect": "clash",
+      "choices": []
+    },
+    {
+      "id": "ending_cunning",
+      "text": "You lift the Crown gently. It pulses with a cool, silver light that seeps into your very bones. No alarms sound. No blades are drawn. By dawn, word spreads of a phantom who walked through walls and claimed the throne's birthright. The people call you the Shadow Sovereign — a ruler who won a kingdom without spilling a single drop of blood. **THE END — Path of Cunning**",
+      "background_image": "neon_grid",
+      "visual_effect": "flash",
+      "sound_effect": "digital",
+      "choices": []
+    }
+  ]
+}
